@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Railsわからないたすけて</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+        <section data-markdown>
+          <script type="text/template">
+            # Railsわからない<br>たすけて
+
+            2016-11-16 Shibuya.rb:20161116
+
+            株式会社spice life うなすけ
+          </script>
+        </section>
+        <section data-markdown data-background-image='img/icon.jpg'>
+          <script type="text/template">
+            ## 自己紹介
+
+            - うなすけ(twitter: yu_suke1994)
+            - 株式会社spice life所属
+            - 開発部 TMIX開発担当 インフラ部所属
+          </script>
+        </section>
+        <section data-markdown data-background-image='img/spicelife.png'>
+          <script type="text/template">
+          </script>
+        </section>
+        <section data-markdown data-background-image='img/shibuya_map.png'>
+          <script type="text/template">
+          </script>
+        </section>
+        <section data-markdown data-background-image='img/shibuya_map_arrow.png'>
+          <script type="text/template">
+          </script>
+        </section>
+        <section data-markdown data-background-image='img/tmix.png'>
+          <script type="text/template">
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 資料です
+
+            [https://unasuke.github.io/shibuyarb_20161116/](https://unasuke.github.io/shibuyarb_20161116/#/)
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## スライドは本質ではないので
+            ## 高橋メソッドでいきます
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## sinatra appを
+            ## Rails appとして
+            ## 書き直しました
+
+            <small>[https://blog.unasuke.com/2016/proconist-net-on-rails/](https://blog.unasuke.com/2016/proconist-net-on-rails/)</small>
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 結果
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Can't verify CSRF Token
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## Can't verify CSRF Token
+            ## production only
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## なんで
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 考えられる原因
+
+            - `secret_key_base`がない
+            - csrf tokenを送ってない
+            - nginxがcsrf token headerを削っている
+            - なんらかのパッケージが古い？
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 考えられる原因
+            ### `secret_key_base`がない
+
+            Railsはそもそも`secret_key_base`がないと起動できないので原因ではなさそう
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 考えられる原因
+            ### csrf tokenを送ってない
+
+            送っている……
+            ![tokenのようす](img/authenticity_token.png)
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 考えられる原因
+            ### nginxがcsrf token headerを削っている
+
+            そんなことはなかった
+            (X_CSRF_TOKENはauthenticity_tokenがあれば不要)
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 考えられる原因
+            ### なんらかのパッケージが古い？
+
+            CentOS 6.9
+
+            昨日(2016-11-15) `yum update`からのrebootで解決せず
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## みなさん
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## 解決の糸口をください
+          </script>
+        </section>
+        <section data-markdown>
+          <script type="text/template">
+            ## お願いします
+
+            ![bow](img/emoji-bow.png)
+
+            <small>[https://github.com/unasuke/proconist.net](https://github.com/unasuke/proconist.net)</small>
+          </script>
+        </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
